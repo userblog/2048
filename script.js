@@ -110,12 +110,17 @@ function moveUp() {
 // Функция для перемещения плиток вниз
 function moveDown() {
     for (let j = 0; j < 4; j++) {
+        // собираем сверху вниз
         let column = [];
-        for (let i = 3; i >= 0; i--) {
+        for (let i = 0; i < 4; i++) {
             if (gameState.board[i][j] !== null) {
                 column.push(gameState.board[i][j]);
             }
         }
+
+        // разворачиваем перед слиянием
+        column.reverse();
+
         column = column.reduce((acc, val) => {
             if (acc.length === 0 || acc[acc.length - 1] !== val) {
                 acc.push(val);
@@ -125,7 +130,11 @@ function moveDown() {
             }
             return acc;
         }, []);
-        column = Array(4 - column.length).fill(null).concat(column);
+
+        // дополняем нулями и разворачиваем обратно
+        while (column.length < 4) column.push(null);
+        column.reverse();
+
         for (let i = 0; i < 4; i++) {
             gameState.board[i][j] = column[i];
         }
@@ -172,12 +181,17 @@ function moveLeft() {
 // Функция для перемещения плиток вправо
 function moveRight() {
     for (let i = 0; i < 4; i++) {
+        // собираем слева направо
         let row = [];
-        for (let j = 3; j >= 0; j--) {
+        for (let j = 0; j < 4; j++) {
             if (gameState.board[i][j] !== null) {
                 row.push(gameState.board[i][j]);
             }
         }
+
+        // разворачиваем перед слиянием
+        row.reverse();
+
         row = row.reduce((acc, val) => {
             if (acc.length === 0 || acc[acc.length - 1] !== val) {
                 acc.push(val);
@@ -187,7 +201,11 @@ function moveRight() {
             }
             return acc;
         }, []);
-        row = Array(4 - row.length).fill(null).concat(row);
+
+        // дополняем нулями слева и разворачиваем обратно
+        while (row.length < 4) row.push(null);
+        row.reverse();
+
         for (let j = 0; j < 4; j++) {
             gameState.board[i][j] = row[j];
         }
